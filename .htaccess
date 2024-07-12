@@ -1,0 +1,29 @@
+# Active le module de réécriture (RewriteEngine) d'URL d'Apache
+RewriteEngine On
+
+
+
+# Définir des en-têtes CORS (Cross-Origin Resource Sharing) pour les fichiers CSS
+<FilesMatch "\.*$">
+    <IfModule mod_headers.c>
+        Header set Access-Control-Allow-Origin "*"
+    </IfModule>
+</FilesMatch>
+
+
+
+
+# Ne pas rediriger les requêtes pour les fichiers statiques
+RewriteCond %{REQUEST_URI} !\.(css|js|png|jpg|jpeg|gif|ico|svg|webp)$ [NC]
+# Cette condition vérifie que l'URI de la requête ne se termine pas par une des extensions de fichiers statiques spécifiées.
+# L'option [NC] signifie "No Case", ce qui rend la condition insensible à la casse (majuscule/minuscule).
+
+RewriteCond %{REQUEST_URI} !^/index\.php$
+# Cette condition vérifie que l'URI de la requête n'est pas /index.php.
+
+RewriteRule ^(.*)$ index.php [QSD,L]
+# Cette règle réécrit toutes les requêtes qui ne correspondent pas aux conditions précédentes pour pointer vers index.php.
+# Le pattern ^(.*)$ capture toute l'URI.
+# L'option [QSD] (Query String Discard) supprime la chaîne de requête de l'URI originale.
+# L'option [L] signifie "Last", indiquant qu'il s'agit de la dernière règle à appliquer.
+
