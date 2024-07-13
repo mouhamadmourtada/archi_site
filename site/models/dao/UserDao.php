@@ -31,6 +31,15 @@ class UserDao extends ModelDao {
         return $users;
     }
 
+
+    public function hasAdminToken($user){
+        $req = $this->db->prepare("SELECT * FROM users where token = :token");
+        $req->bindParam(':token', $user->getToken());
+        $req->execute();
+        $row = $req->fetch();
+        return $row != null;
+    }
+
     public function findBy($attribute, $operator,  $valeur){
         $req = $this->db->prepare("SELECT * FROM users where ".$attribute . $operator.":valeur");
         $req->bindParam(':valeur', $valeur);

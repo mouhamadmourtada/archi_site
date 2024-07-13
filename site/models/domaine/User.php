@@ -131,6 +131,11 @@ class User extends Model {
         $this->role = $role;
     }
 
+    public function hasAdminToken(){
+        return $this->dao->hasAdminToken($this);
+    }
+
+
     public function getDateExpirationToken(){
         return $this->dateExpirationToken;
     }

@@ -29,6 +29,13 @@
     <message name="deleteUserResponse">
         <part name="success" type="xsd:boolean"/>
     </message>
+    <message name="authenticateRequest">
+        <part name="email" type="xsd:string"/>
+        <part name="password" type="xsd:string"/>
+    </message>
+    <message name="authenticateResponse">
+        <part name="success" type="xsd:boolean"/>
+    </message>
 
     <!-- Types -->
     <types>
@@ -44,6 +51,7 @@
                     <xsd:element name="dateExpirationToken" type="xsd:date"/>
                     <xsd:element name="dateExpirationTokenRest" type="xsd:date"/>
                     <xsd:element name="role" type="xsd:string"/>
+                    <xsd:element name="password" type="xsd:string"/> <!-- Ajout du champ password -->
                 </xsd:sequence>
             </xsd:complexType>
 
@@ -72,6 +80,10 @@
         <operation name="deleteUser">
             <input message="tns:deleteUserRequest"/>
             <output message="tns:deleteUserResponse"/>
+        </operation>
+        <operation name="authenticate">
+            <input message="tns:authenticateRequest"/>
+            <output message="tns:authenticateResponse"/>
         </operation>
     </portType>
 
@@ -107,6 +119,15 @@
         </operation>
         <operation name="deleteUser">
             <soap:operation soapAction="urn:deleteUser"/>
+            <input>
+                <soap:body use="encoded" namespace="http://localhost/archi/service/index.php" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/>
+            </input>
+            <output>
+                <soap:body use="encoded" namespace="http://localhost/archi/service/index.php" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/>
+            </output>
+        </operation>
+        <operation name="authenticate">
+            <soap:operation soapAction="urn:authenticate"/>
             <input>
                 <soap:body use="encoded" namespace="http://localhost/archi/service/index.php" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/>
             </input>

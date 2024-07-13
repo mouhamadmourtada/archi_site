@@ -1,6 +1,7 @@
 <?php
 namespace service;
 
+use site\auth\AuthService;
 use site\models\domaine\User;
 
 
@@ -82,6 +83,43 @@ class UserService {
             return false;
         }
         $user->delete();
+        return true;
+    }
+
+
+    public function authenticate($email, $password){
+        
+        $user = AuthService::authenticateSoap($email, $password);
+        if($user){
+            $userData = [
+                'id' => $user->getId(),
+                'nom' => htmlspecialchars($user->getNom()),
+                'prenom' => htmlspecialchars($user->getPrenom()),
+                'email' => htmlspecialchars($user->getEmail()),
+                'token' => htmlspecialchars($user->getToken()),
+                'tokenRest' => htmlspecialchars($user->getTokenRest()),
+                'dateExpirationToken' => htmlspecialchars($user->getDateExpirationToken()),
+                'dateExpirationTokenRest' => htmlspecialchars($user->getDateExpirationTokenReste()),
+                'role' => htmlspecialchars($user->getRole()),
+            ];
+            return $userData;
+        }else{
+            return null;
+        }
+
+    }
+
+
+    public function editUser($user) {
+        $user = User::find($user['id']);
+        if (!$user) {
+            return false;
+        }
+        $user->setNom($user['nom']);
+        $user->setPrenom($user['prenom']);
+        $user->setEmail($user['email']);
+        $user->setRole($user['role']);
+        $user->update();
         return true;
     }
 }
