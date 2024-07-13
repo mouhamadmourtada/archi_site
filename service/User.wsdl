@@ -1,0 +1,126 @@
+<?xml version="1.0"?>
+<definitions name="UserService"
+    targetNamespace="http://localhost/archi/service/UserService"
+    xmlns="http://schemas.xmlsoap.org/wsdl/"
+    xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"
+    xmlns:tns="http://localhost/archi/service/UserService"
+    xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+
+    <!-- Messages -->
+    <message name="listUsersRequest"/>
+    <message name="listUsersResponse">
+        <part name="users" element="tns:UserList"/>
+    </message>
+    <message name="getUserRequest">
+        <part name="id" type="xsd:int"/>
+    </message>
+    <message name="getUserResponse">
+        <part name="user" element="tns:User"/>
+    </message>
+    <message name="addUserRequest">
+        <part name="user" element="tns:User"/>
+    </message>
+    <message name="addUserResponse">
+        <part name="success" type="xsd:boolean"/>
+    </message>
+    <message name="deleteUserRequest">
+        <part name="id" type="xsd:int"/>
+    </message>
+    <message name="deleteUserResponse">
+        <part name="success" type="xsd:boolean"/>
+    </message>
+
+    <!-- Types -->
+    <types>
+        <xsd:schema targetNamespace="http://localhost/archi/service/UserService">
+            <xsd:complexType name="User">
+                <xsd:sequence>
+                    <xsd:element name="id" type="xsd:int"/>
+                    <xsd:element name="nom" type="xsd:string"/>
+                    <xsd:element name="prenom" type="xsd:string"/>
+                    <xsd:element name="token" type="xsd:string"/>
+                    <xsd:element name="tokenRest" type="xsd:string"/>
+                    <xsd:element name="email" type="xsd:string"/>
+                    <xsd:element name="dateExpirationToken" type="xsd:date"/>
+                    <xsd:element name="dateExpirationTokenRest" type="xsd:date"/>
+                    <xsd:element name="role" type="xsd:string"/>
+                </xsd:sequence>
+            </xsd:complexType>
+
+            <xsd:complexType name="UserList">
+                <xsd:sequence>
+                    <xsd:element name="user" type="tns:User" minOccurs="0" maxOccurs="unbounded"/>
+                </xsd:sequence>
+            </xsd:complexType>
+        </xsd:schema>
+    </types>
+
+    <!-- PortType -->
+    <portType name="UserPortType">
+        <operation name="listUsers">
+            <input message="tns:listUsersRequest"/>
+            <output message="tns:listUsersResponse"/>
+        </operation>
+        <operation name="getUser">
+            <input message="tns:getUserRequest"/>
+            <output message="tns:getUserResponse"/>
+        </operation>
+        <operation name="addUser">
+            <input message="tns:addUserRequest"/>
+            <output message="tns:addUserResponse"/>
+        </operation>
+        <operation name="deleteUser">
+            <input message="tns:deleteUserRequest"/>
+            <output message="tns:deleteUserResponse"/>
+        </operation>
+    </portType>
+
+    <!-- Binding -->
+    <binding name="UserBinding" type="tns:UserPortType">
+        <soap:binding style="rpc" transport="http://schemas.xmlsoap.org/soap/http"/>
+        <operation name="listUsers">
+            <soap:operation soapAction="urn:listUsers"/>
+            <input>
+                <soap:body use="encoded" namespace="http://localhost/archi/service/index.php" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/>
+            </input>
+            <output>
+                <soap:body use="encoded" namespace="http://localhost/archi/service/index.php" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/>
+            </output>
+        </operation>
+        <operation name="getUser">
+            <soap:operation soapAction="urn:getUser"/>
+            <input>
+                <soap:body use="encoded" namespace="http://localhost/archi/service/index.php" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/>
+            </input>
+            <output>
+                <soap:body use="encoded" namespace="http://localhost/archi/service/index.php" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/>
+            </output>
+        </operation>
+        <operation name="addUser">
+            <soap:operation soapAction="urn:addUser"/>
+            <input>
+                <soap:body use="encoded" namespace="http://localhost/archi/service/index.php" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/>
+            </input>
+            <output>
+                <soap:body use="encoded" namespace="http://localhost/archi/service/index.php" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/>
+            </output>
+        </operation>
+        <operation name="deleteUser">
+            <soap:operation soapAction="urn:deleteUser"/>
+            <input>
+                <soap:body use="encoded" namespace="http://localhost/archi/service/index.php" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/>
+            </input>
+            <output>
+                <soap:body use="encoded" namespace="http://localhost/archi/service/index.php" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/>
+            </output>
+        </operation>
+    </binding>
+
+    <!-- Service -->
+    <service name="UserService">
+        <port name="UserPort" binding="tns:UserBinding">
+            <soap:address location="http://localhost/archi/service/index.php"/>
+        </port>
+    </service>
+
+</definitions>

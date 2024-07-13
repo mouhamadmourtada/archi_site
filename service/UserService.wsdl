@@ -1,0 +1,203 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions xmlns:tns="http://localhost/archi/service/archi/service/soap"
+             xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"
+             xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+             xmlns="http://schemas.xmlsoap.org/wsdl/"
+             name="UserService"
+             targetNamespace="http://localhost/archi/service/archi/service/soap">
+
+    <!-- Types -->
+    <types>
+        <xsd:schema targetNamespace="http://localhost/archi/service/archi/service/soap">
+            <!-- Définition des types de données -->
+            <xsd:element name="listUsersRequest" type="xsd:string"/>
+            <xsd:element name="listUsersResponse">
+                <xsd:complexType>
+                    <xsd:sequence>
+                        <xsd:element name="users" type="tns:UserArray"/>
+                    </xsd:sequence>
+                </xsd:complexType>
+            </xsd:element>
+            
+            <xsd:element name="addUserRequest">
+                <xsd:complexType>
+                    <xsd:sequence>
+                        <xsd:element name="username" type="xsd:string"/>
+                        <xsd:element name="password" type="xsd:string"/>
+                        <xsd:element name="email" type="xsd:string"/>
+                        <xsd:element name="full_name" type="xsd:string"/>
+                    </xsd:sequence>
+                </xsd:complexType>
+            </xsd:element>
+            <xsd:element name="addUserResponse" type="xsd:boolean"/>
+            
+            <xsd:element name="deleteUserRequest">
+                <xsd:complexType>
+                    <xsd:sequence>
+                        <xsd:element name="id" type="xsd:int"/>
+                    </xsd:sequence>
+                </xsd:complexType>
+            </xsd:element>
+            <xsd:element name="deleteUserResponse" type="xsd:boolean"/>
+            
+            <xsd:element name="updateUserRequest">
+                <xsd:complexType>
+                    <xsd:sequence>
+                        <xsd:element name="id" type="xsd:int"/>
+                        <xsd:element name="username" type="xsd:string"/>
+                        <xsd:element name="email" type="xsd:string"/>
+                        <xsd:element name="full_name" type="xsd:string"/>
+                    </xsd:sequence>
+                </xsd:complexType>
+            </xsd:element>
+            <xsd:element name="updateUserResponse" type="xsd:boolean"/>
+            
+            <xsd:element name="authenticateUserRequest">
+                <xsd:complexType>
+                    <xsd:sequence>
+                        <xsd:element name="username" type="xsd:string"/>
+                        <xsd:element name="password" type="xsd:string"/>
+                    </xsd:sequence>
+                </xsd:complexType>
+            </xsd:element>
+            <xsd:element name="authenticateUserResponse" type="xsd:boolean"/>
+            
+            <xsd:complexType name="User">
+                <xsd:sequence>
+                    <xsd:element name="id" type="xsd:int"/>
+                    <xsd:element name="username" type="xsd:string"/>
+                    <xsd:element name="email" type="xsd:string"/>
+                    <xsd:element name="full_name" type="xsd:string"/>
+                </xsd:sequence>
+            </xsd:complexType>
+            
+            <xsd:complexType name="UserArray">
+                <xsd:sequence>
+                    <xsd:element name="user" type="tns:User" maxOccurs="unbounded"/>
+                </xsd:sequence>
+            </xsd:complexType>
+            
+        </xsd:schema>
+    </types>
+
+    <!-- Messages -->
+    <message name="listUsersRequest"/>
+    <message name="listUsersResponse">
+        <part name="users" element="tns:listUsersResponse"/>
+    </message>
+    
+    <message name="addUserRequest">
+        <part name="parameters" element="tns:addUserRequest"/>
+    </message>
+    <message name="addUserResponse">
+        <part name="result" element="tns:addUserResponse"/>
+    </message>
+    
+    <message name="deleteUserRequest">
+        <part name="parameters" element="tns:deleteUserRequest"/>
+    </message>
+    <message name="deleteUserResponse">
+        <part name="result" element="tns:deleteUserResponse"/>
+    </message>
+    
+    <message name="updateUserRequest">
+        <part name="parameters" element="tns:updateUserRequest"/>
+    </message>
+    <message name="updateUserResponse">
+        <part name="result" element="tns:updateUserResponse"/>
+    </message>
+    
+    <message name="authenticateUserRequest">
+        <part name="parameters" element="tns:authenticateUserRequest"/>
+    </message>
+    <message name="authenticateUserResponse">
+        <part name="result" element="tns:authenticateUserResponse"/>
+    </message>
+
+    <!-- PortType -->
+    <portType name="UserServicePortType">
+        <operation name="listUsers">
+            <input message="tns:listUsersRequest"/>
+            <output message="tns:listUsersResponse"/>
+        </operation>
+        <operation name="addUser">
+            <input message="tns:addUserRequest"/>
+            <output message="tns:addUserResponse"/>
+        </operation>
+        <operation name="deleteUser">
+            <input message="tns:deleteUserRequest"/>
+            <output message="tns:deleteUserResponse"/>
+        </operation>
+        <operation name="updateUser">
+            <input message="tns:updateUserRequest"/>
+            <output message="tns:updateUserResponse"/>
+        </operation>
+        <operation name="authenticateUser">
+            <input message="tns:authenticateUserRequest"/>
+            <output message="tns:authenticateUserResponse"/>
+        </operation>
+    </portType>
+
+    <!-- Binding -->
+    <binding name="UserServiceBinding" type="tns:UserServicePortType">
+        <soap:binding style="rpc" transport="http://schemas.xmlsoap.org/soap/http"/>
+        
+        <operation name="listUsers">
+            <soap:operation soapAction="http://localhost/archi/service/soap#listUsers"/>
+            <input>
+                <soap:body use="literal"/>
+            </input>
+            <output>
+                <soap:body use="literal"/>
+            </output>
+        </operation>
+        
+        <operation name="addUser">
+            <soap:operation soapAction="http://localhost/archi/service/soap#addUser"/>
+            <input>
+                <soap:body use="literal"/>
+            </input>
+            <output>
+                <soap:body use="literal"/>
+            </output>
+        </operation>
+        
+        <operation name="deleteUser">
+            <soap:operation soapAction="http://localhost/archi/service/soap#deleteUser"/>
+            <input>
+                <soap:body use="literal"/>
+            </input>
+            <output>
+                <soap:body use="literal"/>
+            </output>
+        </operation>
+        
+        <operation name="updateUser">
+            <soap:operation soapAction="http://localhost/archi/service/soap#updateUser"/>
+            <input>
+                <soap:body use="literal"/>
+            </input>
+            <output>
+                <soap:body use="literal"/>
+            </output>
+        </operation>
+        
+        <operation name="authenticateUser">
+            <soap:operation soapAction="http://localhost/archi/service/soap#authenticateUser"/>
+            <input>
+                <soap:body use="literal"/>
+            </input>
+            <output>
+                <soap:body use="literal"/>
+            </output>
+        </operation>
+    </binding>
+
+    <!-- Service -->
+    <service name="UserService">
+        <port name="UserServicePort" binding="tns:UserServiceBinding">
+            <soap:address location="http://localhost/archi/service/UserService.php"/>
+        </port>
+    </service>
+
+</definitions>

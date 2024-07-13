@@ -1,0 +1,18 @@
+# Activer le module de réécriture (RewriteEngine) d'URL d'Apache
+RewriteEngine On
+
+# Définir des en-têtes CORS (Cross-Origin Resource Sharing) pour tous les fichiers
+<FilesMatch ".*$">
+    <IfModule mod_headers.c>
+        Header set Access-Control-Allow-Origin "*"
+    </IfModule>
+</FilesMatch>
+
+# Ne pas rediriger les requêtes pour les fichiers statiques
+RewriteCond %{REQUEST_URI} !\.(css|js|png|jpg|jpeg|gif|ico|svg|webp)$ [NC]
+
+# Ne pas rediriger les requêtes vers index.php sauf si ce n'est pas /index.php
+RewriteCond %{REQUEST_URI} !^/index\.php$ [NC]
+
+# Rediriger toutes les autres requêtes vers index.php
+RewriteRule ^(.*)$ index.php [QSD,L]
